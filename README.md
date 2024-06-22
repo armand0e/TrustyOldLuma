@@ -26,6 +26,7 @@
 > *I recommend keeping this folder open in the File explorer for ease of access*
 ### Copy & Set Paths
 **To copy the path of a file: right click the file and select "Copy as path", or select the file and use the keyboard shortcut `Ctrl+Shift+C`**
+
 3. Open a new file explorer window/tab, navigate to your Steam folder, and copy the path of `steam.exe`
 > Default: `C:\Program Files (x86)\Steam`
 4. Navigate back to the GreenLuma folder in your original file explorer window/tab, and copy the path of `GreenLuma_2020_x86.dll` 
