@@ -14,7 +14,7 @@
 5. In the pop-up, head to your Documents library and create a new Folder named GreenLuma, select the "GreenLuma" folder you just created, and click `Select Folder`
 > To create a new folder right click in the empty space, select New->Folder
 # GreenLuma Setup
-1. Download https://cdn.discordapp.com/attachments/1014022783509987349/1248908741097554011/GreenLuma_Stealth.zip?ex=66772ca7&is=6675db27&hm=e2d5c75a40fe24d62f02fc619b452efeaa917dc3ab7cece1b87aa13a5850521e&
+1. Download [GreenLumaStealth.zip](https://cdn.discordapp.com/attachments/1014022783509987349/1248908741097554011/GreenLuma_Stealth.zip?ex=66772ca7&is=6675db27&hm=e2d5c75a40fe24d62f02fc619b452efeaa917dc3ab7cece1b87aa13a5850521e&)
 2. Open the zip and **Extract all in the `Documents->GreenLuma` folder you just created**
 > **At this point your GreenLuma folder should contain:**
 > - A folder named `AppList`
@@ -22,7 +22,8 @@
 > - `DLLInjector.ini`
 > - `GreenLuma_2020_x**.dll` 
 > - `GreenLumaSettings_2023.exe`
-> I recommend keeping this folder open in the File explorer for ease of access
+> 
+> *I recommend keeping this folder open in the File explorer for ease of access*
 ### Copy & Set Paths
 **To copy the path of a file: right click the file and select "Copy as path", or select the file and use the keyboard shortcut `Ctrl+Shift+C`**
 3. Open a new file explorer window/tab, navigate to your Steam folder, and copy the path of `steam.exe`
@@ -41,7 +42,8 @@
 2. Navigate into `GreenLuma->AppList` 
 > - **If adding only 1 game**, open `0.txt` and replace the numbers on the first line with the AppID from your clipboard
 > - Otherwise, create a new text file named `1.txt` and paste the AppID into the first line 
-> When adding multiple AppIDs, each ID needs it's own text file (i.e. `0.txt`, `1.txt`, `2.txt`, `3.txt`, etc.)
+> 
+> *When adding multiple AppIDs, each ID needs it's own text file (i.e. `0.txt`, `1.txt`, `2.txt`, `3.txt`, etc.)*
 # Usage
 1. Make sure steam is completely closed 
 > Open system tray, right click steam icon, select "exit steam"
