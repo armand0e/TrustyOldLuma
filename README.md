@@ -14,7 +14,7 @@
 5. In the pop-up, head to your Documents library and create a new Folder named GreenLuma, select the "GreenLuma" folder you just created, and click `Select Folder`
 > To create a new folder right click in the empty space, select New->Folder
 # GreenLuma Setup
-1. Download [2020.zip](https://github.com/armand0e/TrustyOldLuma/blob/main/2020.zip)
+1. Download [2020.zip](https://github.com/armand0e/TrustyOldLuma/releases/latest)
 2. Open the zip and **Extract all in the `Documents->GreenLuma` folder you just created**
 > **At this point your GreenLuma folder should contain:**
 > - A folder named `AppList`
