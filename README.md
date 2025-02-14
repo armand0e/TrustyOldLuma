@@ -36,9 +36,9 @@
 7. Use the keyboard shortcut `Win+v` to access clipboard history, and paste/enter the paths to `steam.exe` and `GreenLuma_2020_x86.dll` in the order they're prompted for
 8. Close `GreenLumaSettings_2023.exe`
 ### Backup Original Steam Bin
-*In rare cases, the dll injector could fail to inject properly, and cause your steam launcher bin to corrupt. It could prove useful to save a backup somewhere of the `bin` folder located in your Steam folder*
+In rare cases, the dll injector could fail to inject properly, and cause your steam launcher bin to corrupt. It could prove useful to save a backup somewhere of the `bin` folder *located in your Steam folder*
 ## Config
-> Now comes the real magic of GreenLuma. Normally we aren't able to play games from another account's library while that account is in a game. However, if we were to give GreenLuma the Steam AppID of that game, it can run a script when launching steam to spoof ownership of that game, letting us play a family shared game completely independent of the host account. No need to worry about getting banned either! The best part about GreenLuma is that it's all done locally, which makes it virtually impossible to detect.
+Now comes the real magic of GreenLuma. Normally we aren't able to play games from another account's library while that account is in a game. However, if we were to give GreenLuma the Steam AppID of that game, it can run a script when launching steam to spoof ownership of that game, letting us play a family shared game completely independent of the host account. No need to worry about getting banned either! The best part about GreenLuma is that it's all done locally, which makes it virtually impossible to detect.
 1. Find and copy the Steam AppID for the game you want to spoof ownership of 
 > Steam AppIDs can be easily found on [SteamDB](https://steamdb.info/)
 2. Navigate into `GreenLuma->AppList` 
