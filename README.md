@@ -5,7 +5,7 @@
 2. Once logged into their steam account, open Steam settings 
 > Click the Steam icon in the upper left corner of the steam launcher, select Settings*
 3. Navigate to the "Family" tab, and enable `Authorize Library Sharing on this device` and enable the account(s) you want to share to
-# Windows Security
+## Windows Security
 1. Press the windows key and type `security` to open Windows Security
 2. Navigate to `Virus & threat protection` then select `Manage settings` 
 > Underneath the "Virus & threat protection settings" subcategory
