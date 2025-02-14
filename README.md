@@ -1,4 +1,5 @@
-# Setup Steam Family Sharing
+# SETUP INSTRUCTIONS
+## Setup Steam Family Sharing
 1. Open the steam launcher, and have whoever is sharing their game with you login to their steam account on your computer
 > Keep in mind, the steam account must stay logged in on at all times for family sharing to work
 2. Once logged into their steam account, open Steam settings 
@@ -13,7 +14,7 @@
 4. Select `Add an exclusion->Folder` 
 5. In the pop-up, head to your Documents library and create a new Folder named GreenLuma, select the "GreenLuma" folder you just created, and click `Select Folder`
 > To create a new folder right click in the empty space, select New->Folder
-# GreenLuma Setup
+## GreenLuma Setup
 1. Download [2020.zip](https://github.com/armand0e/TrustyOldLuma/releases/latest)
 2. Open the zip and **Extract all in the `Documents->GreenLuma` folder you just created**
 > **At this point your GreenLuma folder should contain:**
@@ -36,7 +37,7 @@
 8. Close `GreenLumaSettings_2023.exe`
 ### Backup Original Steam Bin
 *In rare cases, the dll injector could fail to inject properly, and cause your steam launcher bin to corrupt. It could prove useful to save a backup somewhere of the `bin` folder located in your Steam folder*
-# Config
+## Config
 > Now comes the real magic of GreenLuma. Normally we aren't able to play games from another account's library while that account is in a game. However, if we were to give GreenLuma the Steam AppID of that game, it can run a script when launching steam to spoof ownership of that game, letting us play a family shared game completely independent of the host account. No need to worry about getting banned either! The best part about GreenLuma is that it's all done locally, which makes it virtually impossible to detect.
 1. Find and copy the Steam AppID for the game you want to spoof ownership of 
 > Steam AppIDs can be easily found on [SteamDB](https://steamdb.info/)
@@ -45,7 +46,7 @@
 > - Otherwise, create a new text file named `1.txt` and paste the AppID into the first line 
 > 
 > *When adding multiple AppIDs, each ID needs it's own text file (i.e. `0.txt`, `1.txt`, `2.txt`, `3.txt`, etc.)*
-# Usage
+## Usage
 1. Make sure steam is completely closed 
 > Open system tray, right click steam icon, select "exit steam"
 2. Launch `DLLInjector.exe` from your GreenLuma folder 
