@@ -49,7 +49,9 @@ Now comes the real magic of GreenLuma. Normally we aren't able to play games fro
 
 ## Koalageddon
 [Download and set up Koalageddon v1.5.4](https://github.com/acidicoala/Koalageddon/releases/download/v1.5.4/KoalageddonInstaller.exe)
-Open the koalageddon app, click on "open config directory" at the bottom and set the values at the top to all 'true'.
+Open the koalageddon app, click on "open config directory" at the bottom
+Open the config file and set all the 'false' values at the top to 'true', then save and exit the file
+Click install platform integrations for steam, then you're all set!
 
 ## Usage
 1. Make sure steam is completely closed 
