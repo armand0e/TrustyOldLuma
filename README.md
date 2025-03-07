@@ -46,6 +46,11 @@ Now comes the real magic of GreenLuma. Normally we aren't able to play games fro
 > - Otherwise, create a new text file named `1.txt` and paste the AppID into the first line 
 > 
 > *When adding multiple AppIDs, each ID needs it's own text file (i.e. `0.txt`, `1.txt`, `2.txt`, `3.txt`, etc.)*
+
+## Koalageddon
+[Download and set up Koalageddon v1.5.4](https://github.com/acidicoala/Koalageddon/releases/download/v1.5.4/KoalageddonInstaller.exe)
+Open the koalageddon app, click on "open config directory" at the bottom and set the values at the top to all 'true'.
+
 ## Usage
 1. Make sure steam is completely closed 
 > Open system tray, right click steam icon, select "exit steam"
