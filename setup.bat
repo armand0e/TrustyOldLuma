@@ -43,7 +43,7 @@ if exist "%~dp0greenluma.zip" (
 :: Update DLLInjector.ini with the correct DLL path
 set "dllPath=!greenLumaPath!\GreenLuma_2020_x86.dll"
 if exist "!dllPath!" (
-    powershell -Command "$content = Get-Content '!greenLumaPath!\DLLInjector.ini' -Raw; $content = $content -replace '(?m)^Dll = \".*\"', 'Dll = \"!dllPath:\=\\\!\"'; Set-Content '!greenLumaPath!\DLLInjector.ini' -Value $content" >nul 2>&1
+    powershell -Command "$content = Get-Content '!greenLumaPath!\DLLInjector.ini' -Raw; $content = $content -replace '(?m)^Dll = \".*\"', 'Dll = \"!dllPath!\"'; Set-Content '!greenLumaPath!\DLLInjector.ini' -Value $content" >nul 2>&1
     if %errorLevel% equ 0 (
         echo [OK] Updated DLLInjector.ini with DLL path: !dllPath!
     ) else (

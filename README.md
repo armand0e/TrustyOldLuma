@@ -11,19 +11,14 @@
 ### Quick Setup (Recommended)
 1. Download the latest version from [here](https://github.com/armand0e/TrustyOldLuma/releases/latest)
 2. Extract the zip file to any location
-3. Open PowerShell as Administrator:
-   - Press `Win + X`
-   - Select "Windows PowerShell (Admin)" or "Terminal (Admin)"
-4. Navigate to the extracted folder:
-   ```powershell
-   cd "path\to\extracted\folder"
-   ```
-5. Run the setup script:
-   ```powershell
-   .\setup.ps1
-   ```
-6. Follow the on-screen instructions
-7. A GreenLuma shortcut will be created on your desktop
+3. Right-click `setup.bat` and select "Run as administrator"
+4. Follow the on-screen instructions
+5. The script will:
+   - Create a GreenLuma folder in your Documents
+   - Add Windows Security exclusions
+   - Set up the necessary files
+   - Create desktop shortcuts for GreenLuma and Koalageddon
+   - Configure Koalageddon settings
 
 ### Manual Setup (Alternative)
 If the automated setup doesn't work, you can follow these steps:
@@ -37,6 +32,10 @@ If the automated setup doesn't work, you can follow these steps:
    - Scroll down to Exclusions
    - Click "Add or remove exclusions"
    - Add the GreenLuma folder
+4. Download and install [Koalageddon](https://github.com/acidicoala/Koalageddon/releases/latest)
+5. Configure Koalageddon:
+   - Enable "Replicate" and "Unlock Shared Library" in settings
+   - Copy the Koalageddon shortcut to your GreenLuma folder
 
 ## 🏠 Steam Family Sharing
 For detailed instructions on setting up Steam Family Sharing, please refer to the [Steam Families User Guide & FAQ](https://help.steampowered.com/en/faqs/view/054C-3167-DD7F-49D4)
@@ -71,7 +70,7 @@ For detailed instructions on setting up Steam Family Sharing, please refer to th
 
 ### Common Issues
 1. **Setup Script Won't Run**
-   - Make sure you're running PowerShell as Administrator
+   - Make sure you're running the script as Administrator
    - Check if your antivirus is blocking the script
    - Try running the manual setup steps
 
@@ -79,11 +78,13 @@ For detailed instructions on setting up Steam Family Sharing, please refer to th
    - Ensure Steam is completely closed
    - Verify the game owner's account is still logged in
    - Check that you ran the setup script as Administrator
+   - Make sure the DLL path in DLLInjector.ini is correct
 
 3. **Games Not Showing Up**
    - Verify the App IDs are correct
    - Make sure the AppList files are saved properly
    - Check that Steam Family Sharing is set up correctly
+   - Ensure Koalageddon is properly configured
 
 ### Need More Help?
 If you're still having issues:
