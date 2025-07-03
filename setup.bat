@@ -21,7 +21,16 @@ powershell -Command "Add-MpPreference -ExclusionPath '!greenLumaPath!'" >nul 2>&
 if %errorLevel% equ 0 (
     echo [OK] Added Windows Security exclusion for GreenLuma folder
 ) else (
-    echo [Warning] Could not add Windows Security exclusion. You may need to add it manually.
+    echo [Warning] Could not add Windows Security exclusion for GreenLuma folder. You may need to add it manually.
+)
+
+:: Add Windows Security exclusion for Koalageddon folder
+set "koalageddonPath=%USERPROFILE%\AppData\Local\Programs\Koalageddon"
+powershell -Command "Add-MpPreference -ExclusionPath '!koalageddonPath!'" >nul 2>&1
+if %errorLevel% equ 0 (
+    echo [OK] Added Windows Security exclusion for Koalageddon folder
+) else (
+    echo [Warning] Could not add Windows Security exclusion for Koalageddon folder. You may need to add it manually.
 )
 
 :: Extract greenluma.zip to the GreenLuma folder
@@ -66,21 +75,28 @@ if %errorLevel% equ 0 (
 
 :: Run Koalageddon installer
 echo [INFO] Please run the Koalageddon installer when it appears
-echo [INFO] After installation is complete, press any key to continue...
-start "" "!greenLumaPath!\KoalageddonInstaller.exe"
-pause >nul
+echo [INFO] The script will resume automatically after the installer is closed.
+start /wait "" "!greenLumaPath!\KoalageddonInstaller.exe"
+echo [INFO] Koalageddon installer finished.
 
 :: Update Koalageddon config file
-set "koalaConfig=C:\ProgramData\acidicoala\Koalageddon\Config.jsonc"
-if exist "!koalaConfig!" (
-    powershell -Command "$content = Get-Content '!koalaConfig!' -Raw; $content = $content -replace '\"replicate\": false', '\"replicate\": true' -replace '\"unlock_shared_library\": false', '\"unlock_shared_library\": true'; Set-Content '!koalaConfig!' -Value $content" >nul 2>&1
-    if %errorLevel% equ 0 (
-        echo [OK] Updated Koalageddon config file
+set "koalaConfigPath=%ProgramData%\acidicoala\Koalageddon"
+set "koalaConfigFile=!koalaConfigPath!\Config.jsonc"
+set "repoConfigFile=%~dp0Config.jsonc"
+
+if exist "!repoConfigFile!" (
+    if exist "!koalaConfigPath!" (
+        copy /Y "!repoConfigFile!" "!koalaConfigFile!" >nul 2>&1
+        if %errorLevel% equ 0 (
+            echo [OK] Replaced Koalageddon config file with the one from the repository
+        ) else (
+            echo [ERROR] Failed to replace Koalageddon config file.
+        )
     ) else (
-        echo [WARNING] Could not update Koalageddon config file
+        echo [WARNING] Koalageddon config directory not found at !koalaConfigPath!. Skipping config replacement.
     )
 ) else (
-    echo [WARNING] Koalageddon config file not found at !koalaConfig!
+    echo [WARNING] Repository Config.jsonc not found at !repoConfigFile!. Skipping config replacement.
 )
 
 :: Clean up Koalageddon installer and copy shortcut
