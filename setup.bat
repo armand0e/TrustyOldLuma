@@ -1,84 +1,115 @@
 @echo off
+
+
 :: Check if running as admin
 net session >nul 2>&1
 if %errorLevel% neq 0 (
-    echo Requesting administrator privileges...
-    powershell -Command "Start-Process -FilePath '%~dpnx0' -Verb RunAs"
-    exit /b
+    :: Check if already in Windows Terminal (WT_SESSION is set)
+    if "%WT_SESSION%"=="" (
+        echo * Relaunching in Windows Terminal as administrator...
+        :: Launch Windows Terminal as admin, running this script
+        start "" wt.exe -w 0 nt -d "%CD%" "Start-Process cmd -ArgumentList '/c \"cd /d \"%CD%\" && \"%~nx0\"\"' -Verb RunAs"
+        exit /b
+    ) else (
+        echo * Relaunching as administrator...
+        powershell -Command "Start-Process cmd -ArgumentList '/c \"cd /d \"%CD%\" && \"%~nx0\"\"' -Verb RunAs"
+        exit /b
+    )
 )
 
 setlocal enabledelayedexpansion
 
+echo.
+echo +-------------------------------------------------------------+
+echo ^|                 SETUP SCRIPT INITIALIZED                    ^|
+echo +-------------------------------------------------------------+
+echo.
+
+echo ^* Creating required folders...
 :: Create GreenLuma folder in Documents
 set "greenLumaPath=%USERPROFILE%\Documents\GreenLuma"
 if not exist "!greenLumaPath!" (
     mkdir "!greenLumaPath!"
-    echo [OK] Created GreenLuma folder in Documents
+    echo   [OK] GreenLuma folder created in Documents.
+) else (
+    echo   [OK] GreenLuma folder already exists.
 )
 
+echo.
+echo ^* Configuring Windows Security exclusions...
 :: Add Windows Security exclusion using PowerShell (more reliable method)
 powershell -Command "Add-MpPreference -ExclusionPath '!greenLumaPath!'" >nul 2>&1
 if %errorLevel% equ 0 (
-    echo [OK] Added Windows Security exclusion for GreenLuma folder
+    echo   [OK] Added exclusion for GreenLuma folder.
 ) else (
-    echo [Warning] Could not add Windows Security exclusion for GreenLuma folder. You may need to add it manually.
+    echo   [WARNING] Could not add exclusion for GreenLuma. Please add it manually.
 )
 
 :: Add Windows Security exclusion for Koalageddon folder
 set "koalageddonPath=%USERPROFILE%\AppData\Local\Programs\Koalageddon"
 powershell -Command "Add-MpPreference -ExclusionPath '!koalageddonPath!'" >nul 2>&1
 if %errorLevel% equ 0 (
-    echo [OK] Added Windows Security exclusion for Koalageddon folder
+    echo   [OK] Added exclusion for Koalageddon folder.
 ) else (
-    echo [Warning] Could not add Windows Security exclusion for Koalageddon folder. You may need to add it manually.
+    echo   [WARNING] Could not add exclusion for Koalageddon. Please add it manually.
 )
 
+echo.
+echo ^* Extracting files...
 :: Extract greenluma.zip to the GreenLuma folder
 if exist "%~dp0greenluma.zip" (
     powershell -Command "Expand-Archive -Path '%~dp0greenluma.zip' -DestinationPath '!greenLumaPath!' -Force" >nul 2>&1
     if %errorLevel% equ 0 (
-        echo [OK] Extracted GreenLuma files
+        echo   [OK] Extracted GreenLuma files.
     ) else (
-        echo [ERROR] Failed to extract GreenLuma files
+        echo   [ERROR] Failed to extract GreenLuma files.
         pause
         exit /b 1
     )
 ) else (
-    echo [ERROR] greenluma.zip not found in the script directory
+    echo   [ERROR] greenluma.zip not found in the script directory.
     pause
     exit /b 1
 )
 
+echo.
+echo ^* Configuring GreenLuma...
 :: Update DLLInjector.ini with the correct DLL path
 set "dllPath=!greenLumaPath!\GreenLuma_2020_x86.dll"
 if exist "!dllPath!" (
     powershell -Command "$content = Get-Content '!greenLumaPath!\DLLInjector.ini' -Raw; $content = $content -replace '(?m)^Dll = \".*\"', 'Dll = \"!dllPath!\"'; Set-Content '!greenLumaPath!\DLLInjector.ini' -Value $content" >nul 2>&1
     if %errorLevel% equ 0 (
-        echo [OK] Updated DLLInjector.ini with DLL path: !dllPath!
+        echo   [OK] Updated DLLInjector.ini with path: !dllPath!
     ) else (
-        echo [WARNING] Could not update DLLInjector.ini
+        echo   [WARNING] Could not update DLLInjector.ini.
     )
 ) else (
-    echo [WARNING] GreenLuma DLL not found at !dllPath!
+    echo   [WARNING] GreenLuma DLL not found at !dllPath!
 )
 
+echo.
+echo ^* Downloading Koalageddon...
 :: Download Koalageddon installer
-echo [INFO] Downloading Koalageddon installer...
+echo   Please wait while the installer is downloaded.
 powershell -Command "Invoke-WebRequest -Uri 'https://github.com/acidicoala/Koalageddon/releases/download/v1.5.4/KoalageddonInstaller.exe' -OutFile '!greenLumaPath!\KoalageddonInstaller.exe'" >nul 2>&1
 if %errorLevel% equ 0 (
-    echo [OK] Downloaded Koalageddon installer
+    echo   [OK] Downloaded Koalageddon installer.
 ) else (
-    echo [ERROR] Failed to download Koalageddon installer
+    echo   [ERROR] Failed to download Koalageddon installer.
     pause
     exit /b 1
 )
 
+echo.
+echo ^* Running Koalageddon installer...
 :: Run Koalageddon installer
-echo [INFO] Please run the Koalageddon installer when it appears
-echo [INFO] The script will resume automatically after the installer is closed.
+echo   The installer will open in a new window.
+echo   Please follow the instructions, then close it to continue.
 start /wait "" "!greenLumaPath!\KoalageddonInstaller.exe"
-echo [INFO] Koalageddon installer finished.
+echo   [OK] Koalageddon installer finished.
 
+echo.
+echo ^* Updating configuration files...
 :: Update Koalageddon config file
 set "koalaConfigPath=%ProgramData%\acidicoala\Koalageddon"
 set "koalaConfigFile=!koalaConfigPath!\Config.jsonc"
@@ -88,36 +119,28 @@ if exist "!repoConfigFile!" (
     if exist "!koalaConfigPath!" (
         copy /Y "!repoConfigFile!" "!koalaConfigFile!" >nul 2>&1
         if %errorLevel% equ 0 (
-            echo [OK] Replaced Koalageddon config file with the one from the repository
+            echo   [OK] Replaced Koalageddon config with repository version.
         ) else (
-            echo [ERROR] Failed to replace Koalageddon config file.
+            echo   [ERROR] Failed to replace Koalageddon config file.
         )
     ) else (
-        echo [WARNING] Koalageddon config directory not found at !koalaConfigPath!. Skipping config replacement.
+        echo   [WARNING] Koalageddon config directory not found. Skipping.
     )
 ) else (
-    echo [WARNING] Repository Config.jsonc not found at !repoConfigFile!. Skipping config replacement.
+    echo   [WARNING] Repository Config.jsonc not found. Skipping.
 )
 
+echo.
+echo ^* Creating shortcuts and cleaning up...
 :: Clean up Koalageddon installer and copy shortcut
 del "!greenLumaPath!\KoalageddonInstaller.exe" >nul 2>&1
 if exist "%USERPROFILE%\Desktop\Koalageddon.lnk" (
     copy "%USERPROFILE%\Desktop\Koalageddon.lnk" "!greenLumaPath!\Koalageddon.lnk" >nul 2>&1
-    echo [OK] Copied Koalageddon shortcut to GreenLuma folder
+    echo   [OK] Copied Koalageddon shortcut to GreenLuma folder.
 )
 
 :: Create GreenLuma shortcut with custom icon
-set "iconPath=!greenLumaPath!\res\icon.png"
-set "iconIcoPath=!greenLumaPath!\icon.ico"
-if exist "!iconPath!" (
-    powershell -Command "Add-Type -AssemblyName System.Drawing; [System.Drawing.Bitmap]::FromFile('!iconPath!').Save('!iconIcoPath!', [System.Drawing.Imaging.ImageFormat]::Ico)" >nul 2>&1
-    if %errorLevel% neq 0 (
-        echo [WARNING] Could not convert icon, using default icon
-        set "iconIcoPath=!greenLumaPath!\DLLInjector.exe"
-    )
-) else (
-    set "iconIcoPath=!greenLumaPath!\DLLInjector.exe"
-)
+set "iconPath=!greenLumaPath!\res\icon.ico"
 
 >"%TEMP%\createshortcut.vbs" (
     echo Set oWS = WScript.CreateObject("WScript.Shell"^)
@@ -125,14 +148,14 @@ if exist "!iconPath!" (
     echo Set oLink = oWS.CreateShortcut(sLinkFile^)
     echo oLink.TargetPath = "!greenLumaPath!\DLLInjector.exe"
     echo oLink.WorkingDirectory = "!greenLumaPath!"
-    echo oLink.IconLocation = "!iconIcoPath!"
+    echo oLink.IconLocation = "!iconPath!"
     echo oLink.Save
 )
 cscript //nologo "%TEMP%\createshortcut.vbs" >nul
 if %errorLevel% equ 0 (
-    echo [OK] Created desktop shortcut
+    echo   [OK] Created GreenLuma desktop shortcut.
 ) else (
-    echo Error creating desktop shortcut
+    echo   [ERROR] Could not create desktop shortcut.
 )
 del "%TEMP%\createshortcut.vbs" >nul 2>&1
 
@@ -140,24 +163,44 @@ del "%TEMP%\createshortcut.vbs" >nul 2>&1
 set "appListPath=%greenLumaPath%\AppList"
 if not exist "!appListPath!" (
     mkdir "!appListPath!"
-    echo [OK] Created AppList folder
+    echo   [OK] Created AppList folder.
 )
 
+set "appId=252950" 
+
+:: Create AppList file with default App ID
 set "appListFile=%appListPath%\0.txt"
 if not exist "!appListFile!" (
-    echo. > "!appListFile!"
-    echo [OK] Created initial AppList file
+    echo !appId! > "!appListFile!"
+    echo   [OK] Created initial AppList file with App ID: !appId!
+) else (
+    echo   [INFO] AppList file already exists, keeping existing configuration
 )
-
 :: Display completion message
 echo.
-echo [SUCCESS] Setup completed successfully!
+echo +-------------------------------------------------------------+
+echo ^|  ██████╗  ██████╗ ███╗   ██╗███████╗██╗                    ^|
+echo ^|  ██╔══██╗██╔═══██╗████╗  ██║██╔════╝██║                    ^|
+echo ^|  ██║  ██║██║   ██║██╔██╗ ██║█████╗  ██║                    ^|
+echo ^|  ██║  ██║██║   ██║██║╚██╗██║██╔══╝  ╚═╝                    ^|
+echo ^|  ██████╔╝╚██████╔╝██║ ╚████║███████╗██╗                    ^|
+echo ^|  ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚══════╝╚═╝                    ^|
+echo +-------------------------------------------------------------+
 echo.
-echo Next steps:
-echo   1. Make sure Steam is completely closed
-echo   2. Double-click the GreenLuma shortcut on your desktop
-echo   3. Steam will launch automatically with GreenLuma enabled
-echo   4. To add games, open the AppList folder in Documents\GreenLuma
-echo      and add the Steam App IDs to the text files
+echo +-------------------------------------------------------------+
+echo ^|                        NEXT STEPS                           ^|
+echo +-------------------------------------------------------------+
+echo.
+echo   Step 1: Launch Koalageddon and click "Install platform integrations"
+echo   Step 2: Double-click the GreenLuma shortcut and enjoy gaming!
+echo.
+echo +-------------------------------------------------------------+
+echo ^|                    SHOW SOME LOVE!                          ^|
+echo +-------------------------------------------------------------+
+echo.
+echo   Don't forget to star us on GitHub!
+echo     https://github.com/armand0e/TrustyOldLuma
+echo.
+echo   Thanks for using TrustyOldLuma^! Happy gaming^! ^<3
 echo.
 pause 
