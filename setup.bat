@@ -4,17 +4,10 @@
 :: Check if running as admin
 net session >nul 2>&1
 if %errorLevel% neq 0 (
-    :: Check if already in Windows Terminal (WT_SESSION is set)
-    if "%WT_SESSION%"=="" (
-        echo * Relaunching in Windows Terminal as administrator...
-        :: Launch Windows Terminal as admin, running this script
-        start "" wt.exe -w 0 nt -d "%CD%" "Start-Process cmd -ArgumentList '/c \"cd /d \"%CD%\" && \"%~nx0\"\"' -Verb RunAs"
-        exit /b
-    ) else (
-        echo * Relaunching as administrator...
-        powershell -Command "Start-Process cmd -ArgumentList '/c \"cd /d \"%CD%\" && \"%~nx0\"\"' -Verb RunAs"
-        exit /b
-    )
+    echo * This script requires administrator privileges.
+    echo * Relaunching as administrator...
+    powershell -Command "Start-Process '%~f0' -Verb RunAs -WorkingDirectory '%CD%'"
+    exit /b
 )
 
 setlocal enabledelayedexpansion
@@ -117,11 +110,11 @@ set "repoConfigFile=%~dp0Config.jsonc"
 
 if exist "!repoConfigFile!" (
     if exist "!koalaConfigPath!" (
-        copy /Y "!repoConfigFile!" "!koalaConfigFile!" >nul 2>&1
+        powershell -Command "try { $maxAttempts = 3; $attempt = 0; do { $attempt++; try { Start-Sleep -Milliseconds 500; Copy-Item -Path '!repoConfigFile!' -Destination '!koalaConfigFile!' -Force -ErrorAction Stop; break } catch { if ($attempt -eq $maxAttempts) { throw } } } while ($attempt -lt $maxAttempts); exit 0 } catch { exit 1 }" >nul 2>&1
         if %errorLevel% equ 0 (
             echo   [OK] Replaced Koalageddon config with repository version.
         ) else (
-            echo   [ERROR] Failed to replace Koalageddon config file.
+            echo   [WARNING] Could not replace Koalageddon config file. File may be in use.
         )
     ) else (
         echo   [WARNING] Koalageddon config directory not found. Skipping.
@@ -140,7 +133,7 @@ if exist "%USERPROFILE%\Desktop\Koalageddon.lnk" (
 )
 
 :: Create GreenLuma shortcut with custom icon
-set "iconPath=!greenLumaPath!\res\icon.ico"
+set "iconPath=!greenLumaPath!\icon.ico"
 
 >"%TEMP%\createshortcut.vbs" (
     echo Set oWS = WScript.CreateObject("WScript.Shell"^)
