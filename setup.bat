@@ -56,9 +56,9 @@ if %errorLevel% equ 0 (
 
 echo.
 echo ^* Extracting files...
-:: Extract greenluma.zip to the GreenLuma folder
+:: Extract greenluma.zip to the GreenLuma folder (flattening directory structure)
 if exist "%~dp0greenluma.zip" (
-    powershell -Command "Expand-Archive -Path '%~dp0greenluma.zip' -DestinationPath '!greenLumaPath!' -Force" >nul 2>&1
+    powershell -Command "$tempPath = Join-Path ([System.IO.Path]::GetTempPath()) ([System.IO.Path]::GetRandomFileName()); New-Item -ItemType Directory -Path $tempPath -Force | Out-Null; Expand-Archive -Path '%~dp0greenluma.zip' -DestinationPath $tempPath -Force; Get-ChildItem -Path $tempPath -Recurse -File | ForEach-Object { Move-Item $_.FullName -Destination '!greenLumaPath!' -Force }; Remove-Item -Path $tempPath -Recurse -Force" >nul 2>&1
     if %errorLevel% equ 0 (
         echo   [OK] Extracted GreenLuma files.
     ) else (
@@ -166,26 +166,10 @@ if not exist "!appListPath!" (
     echo   [OK] Created AppList folder.
 )
 
-set "appId=252950" 
-
-:: Create AppList file with default App ID
 set "appListFile=%appListPath%\0.txt"
-if not exist "!appListFile!" (
-    echo !appId! > "!appListFile!"
-    echo   [OK] Created initial AppList file with App ID: !appId!
-) else (
-    echo   [INFO] AppList file already exists, keeping existing configuration
-)
-:: Display completion message
-echo.
-echo +-------------------------------------------------------------+
-echo ^|  ██████╗  ██████╗ ███╗   ██╗███████╗██╗                    ^|
-echo ^|  ██╔══██╗██╔═══██╗████╗  ██║██╔════╝██║                    ^|
-echo ^|  ██║  ██║██║   ██║██╔██╗ ██║█████╗  ██║                    ^|
-echo ^|  ██║  ██║██║   ██║██║╚██╗██║██╔══╝  ╚═╝                    ^|
-echo ^|  ██████╔╝╚██████╔╝██║ ╚████║███████╗██╗                    ^|
-echo ^|  ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚══════╝╚═╝                    ^|
-echo +-------------------------------------------------------------+
+echo 252950 > "!appListFile!"
+echo   [OK] Created initial AppList file with App ID: !appId!
+
 echo.
 echo +-------------------------------------------------------------+
 echo ^|                        NEXT STEPS                           ^|
