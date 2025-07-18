@@ -125,10 +125,24 @@ if exist "!repoConfigFile!" (
 
 echo.
 echo ^* Creating shortcuts and cleaning up...
+:: Find desktop directory
+
+set "desktopPath=%USERPROFILE%\Desktop"
+if exist "!desktopPath!" (
+    set "desktopPath=!desktopPath!"
+) else (
+    set "desktopPath=%USERPROFILE%\OneDrive\Desktop"
+)
+if exist "!desktopPath!" (
+    set "desktopPath=!desktopPath!"
+) else (
+    echo   [WARNING] Could not find desktop directory.. skipping shortcut creation.
+)
+
 :: Clean up Koalageddon installer and copy shortcut
 del "!greenLumaPath!\KoalageddonInstaller.exe" >nul 2>&1
-if exist "%USERPROFILE%\Desktop\Koalageddon.lnk" (
-    copy "%USERPROFILE%\Desktop\Koalageddon.lnk" "!greenLumaPath!\Koalageddon.lnk" >nul 2>&1
+if exist "!desktopPath!\Koalageddon.lnk" (
+    copy "!desktopPath!\Koalageddon.lnk" "!greenLumaPath!\Koalageddon.lnk" >nul 2>&1
     echo   [OK] Copied Koalageddon shortcut to GreenLuma folder.
 )
 
@@ -137,7 +151,7 @@ set "iconPath=!greenLumaPath!\icon.ico"
 
 >"%TEMP%\createshortcut.vbs" (
     echo Set oWS = WScript.CreateObject("WScript.Shell"^)
-    echo sLinkFile = "%USERPROFILE%\Desktop\GreenLuma.lnk"
+    echo sLinkFile = "!desktopPath!\GreenLuma.lnk"
     echo Set oLink = oWS.CreateShortcut(sLinkFile^)
     echo oLink.TargetPath = "!greenLumaPath!\DLLInjector.exe"
     echo oLink.WorkingDirectory = "!greenLumaPath!"
