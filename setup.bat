@@ -49,9 +49,9 @@ if %errorLevel% equ 0 (
 
 echo.
 echo ^* Extracting files...
-:: Extract greenluma.zip to the GreenLuma folder (flattening directory structure)
-if exist "%~dp0greenluma.zip" (
-    powershell -Command "$tempPath = Join-Path ([System.IO.Path]::GetTempPath()) ([System.IO.Path]::GetRandomFileName()); New-Item -ItemType Directory -Path $tempPath -Force | Out-Null; Expand-Archive -Path '%~dp0greenluma.zip' -DestinationPath $tempPath -Force; Get-ChildItem -Path $tempPath -Recurse -File | ForEach-Object { Move-Item $_.FullName -Destination '!greenLumaPath!' -Force }; Remove-Item -Path $tempPath -Recurse -Force" >nul 2>&1
+:: Extract assets\greenluma.zip to the GreenLuma folder (flattening directory structure)
+if exist "%~dp0assets\greenluma.zip" (
+    powershell -Command "$tempPath = Join-Path ([System.IO.Path]::GetTempPath()) ([System.IO.Path]::GetRandomFileName()); New-Item -ItemType Directory -Path $tempPath -Force | Out-Null; Expand-Archive -Path '%~dp0lib\greenluma.zip' -DestinationPath $tempPath -Force; Get-ChildItem -Path $tempPath -Recurse -File | ForEach-Object { Move-Item $_.FullName -Destination '!greenLumaPath!' -Force }; Remove-Item -Path $tempPath -Recurse -Force" >nul 2>&1
     if %errorLevel% equ 0 (
         echo   [OK] Extracted GreenLuma files.
     ) else (
@@ -60,7 +60,7 @@ if exist "%~dp0greenluma.zip" (
         exit /b 1
     )
 ) else (
-    echo   [ERROR] greenluma.zip not found in the script directory.
+    echo   [ERROR] assets\greenluma.zip not found in the script directory.
     pause
     exit /b 1
 )
