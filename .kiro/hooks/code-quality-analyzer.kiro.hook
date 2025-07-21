@@ -1,0 +1,20 @@
+{
+  "enabled": true,
+  "name": "Code Quality Analyzer",
+  "description": "Analyzes modified code for potential improvements, including code smells, design patterns, and best practices. Provides suggestions to enhance readability, maintainability, and performance.",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "**/*.py",
+      "**/*.js",
+      "setup.py",
+      "conftest.py",
+      "**/*.bat"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Analyze the following code changes for potential improvements:\n\n1. Identify any code smells (duplicated code, long methods, complex conditionals)\n2. Suggest appropriate design patterns based on the project's architecture (Manager Pattern, Async/Await)\n3. Check for adherence to best practices:\n   - Using pathlib.Path instead of os.path\n   - Proper async/await implementation\n   - Type hints and annotations\n   - Consistent error handling with custom exceptions\n   - Rich console integration for output\n4. Recommend performance optimizations\n5. Identify any redundant or unnecessary code/files\n6. Ensure code follows the project's naming conventions:\n   - Modules: snake_case.py\n   - Classes: PascalCase\n   - Functions/Methods: snake_case\n   - Constants: UPPER_SNAKE_CASE\n\nProvide specific, actionable suggestions that maintain existing functionality while improving code quality. Format your response with clear section headings and code examples where appropriate."
+  }
+}

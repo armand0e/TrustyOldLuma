@@ -1,8 +1,8 @@
 """
-Setup configuration for Gaming Setup Tool.
+Setup configuration for Luna Gaming Tool.
 
 This file provides configuration for creating executable packages
-and installing the Gaming Setup Tool as a Python package.
+and installing the Luna Gaming Tool as a Python package.
 """
 
 from setuptools import setup, find_packages
@@ -23,32 +23,18 @@ if requirements_file.exists():
     ]
 
 setup(
-    name="gaming-setup-tool",
+    name="luna-gaming-tool",
     version="1.0.0",
-    description="Modern Python replacement for gaming tools setup batch script",
+    description="Luna Gaming Tool - Unified gaming setup and configuration tool",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    author="Gaming Setup Tool Team",
-    author_email="support@example.com",
-    url="https://github.com/example/gaming-setup-tool",
+    author="Luna Gaming Tool Team",
+    author_email="support@luna-gaming.com",
+    url="https://github.com/luna-gaming/luna-gaming-tool",
     
     # Package configuration
-    packages=find_packages(),
-    py_modules=[
-        "gaming_setup_tool",
-        "admin_manager",
-        "applist_manager", 
-        "cleanup_manager",
-        "config",
-        "configuration_handler",
-        "display_managers",
-        "error_manager",
-        "exceptions",
-        "file_operations_manager",
-        "models",
-        "security_config_manager",
-        "shortcut_manager"
-    ],
+    packages=find_packages(where="src"),
+    package_dir={"": "src"},
     
     # Dependencies
     install_requires=requirements,
@@ -59,17 +45,25 @@ setup(
     # Entry points for command-line execution
     entry_points={
         "console_scripts": [
-            "gaming-setup-tool=gaming_setup_tool:main",
-            "gst=gaming_setup_tool:main",  # Short alias
+            "luna=luna.__main__:main",
+            "luna-setup=luna.__main__:main",
+            "luna-gaming-tool=luna.__main__:main",  # Full name alias
+            "luna-cli=luna.cli:run",  # CLI backend
         ],
     },
     
     # Package data
     package_data={
         "": [
-            "assets/*.zip",
-            "assets/*.json",
-            "assets/*.config",
+            "assets/luna/*.zip",
+            "assets/luna/*.json",
+            "assets/luna/*.jsonc",
+            "assets/luna/*.config",
+            "config/*.jsonc",
+            "config/*.json",
+            "docs/*.md",
+            "scripts/*.bat",
+            "scripts/*.sh",
             "*.md",
             "*.txt",
             "*.ini"
@@ -97,13 +91,14 @@ setup(
     ],
     
     # Keywords for discovery
-    keywords="gaming setup tools greenluma koalageddon automation installer",
+    keywords="luna gaming tool unified setup automation installer steam dlc injection",
     
     # Project URLs
     project_urls={
-        "Bug Reports": "https://github.com/example/gaming-setup-tool/issues",
-        "Source": "https://github.com/example/gaming-setup-tool",
-        "Documentation": "https://github.com/example/gaming-setup-tool/wiki",
+        "Bug Reports": "https://github.com/luna-gaming/luna-gaming-tool/issues",
+        "Source": "https://github.com/luna-gaming/luna-gaming-tool",
+        "Documentation": "https://github.com/luna-gaming/luna-gaming-tool/wiki",
+        "Homepage": "https://luna-gaming.com",
     },
     
     # Additional options for executable creation
@@ -134,7 +129,7 @@ setup(
                 "pytest"
             ],
             "optimize": 2,
-            "build_exe": "dist/gaming-setup-tool"
+            "build_exe": "dist/luna-gaming-tool"
         }
     },
     

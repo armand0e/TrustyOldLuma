@@ -19,7 +19,7 @@ from typing import Dict, Any, List, Optional
 from rich.console import Console
 from rich.text import Text
 
-from models import SetupConfig, SetupResults, ShortcutConfig
+from models import LunaConfig, LunaResults, LunaShortcutConfig
 from display_managers import (
     ProgressDisplayManager,
     ErrorDisplayManager,
@@ -208,13 +208,14 @@ def sample_config_files(temp_dir):
 
 @pytest.fixture
 def setup_config(temp_workspace):
-    """Create a test SetupConfig instance."""
-    return SetupConfig(
-        greenluma_path=temp_workspace['greenluma'],
-        koalageddon_path=temp_workspace['koalageddon'],
-        koalageddon_config_path=temp_workspace['koalageddon'] / "config",
+    """Create a test LunaConfig instance."""
+    return LunaConfig(
+        luna_core_path=temp_workspace['greenluma'],
+        luna_config_path=temp_workspace['koalageddon'] / "config",
         download_url="https://example.com/test.exe",
         app_id="480",
+        legacy_greenluma_path=temp_workspace['greenluma'],
+        legacy_koalageddon_path=temp_workspace['koalageddon'],
         verbose_logging=False,
         documents_path=temp_workspace['documents'],
         temp_dir=temp_workspace['temp']
@@ -223,26 +224,28 @@ def setup_config(temp_workspace):
 
 @pytest.fixture
 def setup_results():
-    """Create a test SetupResults instance."""
-    return SetupResults()
+    """Create a test LunaResults instance."""
+    return LunaResults()
 
 
 @pytest.fixture
 def sample_shortcut_configs(temp_workspace):
     """Create sample shortcut configurations."""
     return [
-        ShortcutConfig(
-            name="GreenLuma",
+        LunaShortcutConfig(
+            name="Luna Injector",
             target_path=temp_workspace['greenluma'] / "DLLInjector.exe",
             working_directory=temp_workspace['greenluma'],
             icon_path=temp_workspace['greenluma'] / "icon.ico",
-            description="GreenLuma DLL Injector"
+            description="Luna DLL Injector",
+            component="injector"
         ),
-        ShortcutConfig(
-            name="Koalageddon",
+        LunaShortcutConfig(
+            name="Luna Unlocker",
             target_path=temp_workspace['koalageddon'] / "Koalageddon.exe",
             working_directory=temp_workspace['koalageddon'],
-            description="Koalageddon Game Unlocker"
+            description="Luna Game Unlocker",
+            component="unlocker"
         )
     ]
 

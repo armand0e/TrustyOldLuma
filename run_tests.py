@@ -70,16 +70,17 @@ def run_unit_tests(verbose=False, coverage=False):
     
     # Add specific unit test files
     unit_test_files = [
-        "test_admin_manager.py",
-        "test_file_operations_manager.py",
-        "test_security_config_manager.py",
-        "test_configuration_handler.py",
-        "test_shortcut_manager.py",
-        "test_applist_manager.py",
-        "test_cleanup_manager.py",
-        "test_error_manager.py",
-        "test_display_managers.py",
-        "test_models.py"
+        "tests/unit/test_models.py",
+        "tests/unit/test_display_managers.py",
+        "tests/unit/test_configuration_handler.py",
+        "tests/unit/test_luna_config_migration.py",
+        "tests/unit/test_migration_simple.py",
+        "tests/unit/test_migration_working.py",
+        "tests/unit/test_main_entry_point.py",
+        "tests/unit/test_luna_setup_tool.py",
+        "tests/unit/test_rich_console_output.py",
+        "tests/unit/test_edge_cases.py",
+        "tests/unit/test_performance.py"
     ]
     
     # Only add files that exist
@@ -101,11 +102,14 @@ def run_integration_tests(verbose=False):
     
     # Add specific integration test files
     integration_test_files = [
-        "test_gaming_setup_integration.py",
-        "test_complete_workflow_integration.py",
-        "test_applist_integration.py",
-        "test_cleanup_integration.py",
-        "test_file_operations_integration.py"
+        "tests/integration/test_gaming_setup_integration.py",
+        "tests/integration/test_complete_workflow_integration.py",
+        "tests/integration/test_applist_integration.py",
+        "tests/integration/test_cleanup_integration.py",
+        "tests/integration/test_file_operations_integration.py",
+        "tests/integration/test_luna_integration.py",
+        "tests/integration/test_luna_component_integration.py",
+        "tests/integration/test_luna_workflow_integration.py"
     ]
     
     # Only add files that exist
@@ -130,8 +134,8 @@ def run_rich_output_tests(verbose=False):
         cmd.append("-v")
     
     # Add Rich output test file
-    if Path("test_rich_console_output.py").exists():
-        cmd.append("test_rich_console_output.py")
+    if Path("tests/unit/test_rich_console_output.py").exists():
+        cmd.append("tests/unit/test_rich_console_output.py")
     
     return run_command(cmd, "Rich Console Output Tests")
 
@@ -195,11 +199,11 @@ def generate_coverage_report():
     # Run tests with coverage
     cmd = [
         sys.executable, "-m", "pytest",
-        "--cov=.",
+        "--cov=src",
         "--cov-report=html:htmlcov",
         "--cov-report=term-missing",
         "--cov-report=xml",
-        "--cov-exclude=test_*",
+        "--cov-exclude=tests/*",
         "--cov-exclude=conftest.py",
         "--cov-exclude=run_tests.py"
     ]

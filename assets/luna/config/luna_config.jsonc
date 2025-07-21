@@ -1,0 +1,300 @@
+{
+	// Luna Gaming Tool - Unified Configuration Schema
+	// This configuration combines GreenLuma DLL injection and Koalageddon DLC unlocking
+	// into a single, cohesive Luna gaming tool configuration
+	
+	"config_version": 1, // DO NOT EDIT THIS VALUE - Luna configuration version
+	"luna": {
+		"version": "1.0.0",
+		"name": "Luna Gaming Tool",
+		"description": "Unified gaming tool combining DLL injection and DLC unlocking capabilities"
+	},
+	
+	// Core Luna settings
+	"core": {
+		"injector_enabled": true,        // Enable Luna Injector (GreenLuma functionality)
+		"unlocker_enabled": true,        // Enable Luna Unlocker (Koalageddon functionality)
+		"auto_start": false,             // Automatically start Luna with system
+		"stealth_mode": true,            // Run Luna in stealth mode
+		"unified_interface": true,       // Use unified Luna interface
+		"log_level": "info"              // Logging level: debug, info, warning, error
+	},
+	
+	// Luna directory structure and paths
+	"paths": {
+		"core_directory": "%DOCUMENTS%/Luna",           // Main Luna installation directory
+		"config_directory": "%DOCUMENTS%/Luna/config",  // Luna configuration directory
+		"temp_directory": "%TEMP%/Luna",                // Temporary files directory
+		"logs_directory": "%DOCUMENTS%/Luna/logs",      // Log files directory
+		"backup_directory": "%DOCUMENTS%/Luna/backup"   // Backup directory for migrations
+	},
+	
+	// Luna Injector configuration (formerly GreenLuma)
+	"injector": {
+		"enabled": true,
+		"component_name": "Luna Injector",
+		"description": "DLL injection component for Steam game sharing",
+		"dll_name": "luna_core.dll",
+		"injector_exe": "luna_injector.exe",
+		"settings_exe": "luna_settings.exe",
+		"config_file": "luna_injector.ini",
+		"applist": {
+			"enabled": true,
+			"directory": "AppList",
+			"default_app_id": "480",        // Default Steam App ID
+			"auto_generate": true,          // Automatically generate AppList entries
+			"backup_existing": true         // Backup existing AppList before changes
+		},
+		"injection": {
+			"delay_ms": 1000,               // Injection delay in milliseconds
+			"retry_attempts": 3,            // Number of retry attempts
+			"stealth_injection": true,      // Use stealth injection techniques
+			"process_monitoring": true      // Monitor target processes
+		}
+	},
+	
+	// Luna Unlocker configuration (formerly Koalageddon)
+	"unlocker": {
+		"enabled": true,
+		"component_name": "Luna Unlocker",
+		"description": "DLC unlocking component for multiple gaming platforms",
+		"config_file": "luna_unlocker.json",
+		"integration": {
+			"auto_integrate": true,         // Automatically integrate with detected platforms
+			"backup_originals": true,       // Backup original files before modification
+			"verify_integrity": true        // Verify file integrity after integration
+		}
+	},
+	
+	// Gaming platform configurations
+	"platforms": {
+		"Steam": {
+			"enabled": true,
+			"priority": 1,
+			"process": "steam.exe",
+			"replicate": true,              // Enable Luna replication for Steam
+			"unlock_dlc": true,             // Enable DLC unlocking for Steam
+			"unlock_shared_library": true,  // Enable shared library unlocking
+			"luna_integration": true,       // Enable Luna-specific Steam integration
+			"app_blacklist": [
+				"976310"                    // Mortal Kombat 11 - Example blacklisted app
+			],
+			"blacklist": [                  // Get App ID from SteamDB
+				"22618",                    // Alien Breed: Impact - PL Check [Do not force polish language]
+				"67379"                     // Darkness II Low Violence [Do not censor violence]
+			],
+			"ignore": [
+				"x86launcher.exe",
+				"x64launcher.exe",
+				"SteamService.exe",
+				"steamwebhelper.exe",
+				"GameOverlayUI.exe",
+				"gldriverquery.exe",
+				"gldriverquery64.exe",
+				"vulkandriverquery.exe",
+				"vulkandriverquery64.exe"
+			]
+		},
+		"EpicGames": {
+			"enabled": true,
+			"priority": 2,
+			"process": "EpicGamesLauncher.exe",
+			"replicate": true,
+			"unlock_dlc": true,
+			"luna_integration": true,
+			"blacklist": [                  // Get DLC ID from ScreamDB
+				"ffffffffffffffffffffffffffffffff" // A Total War Sage: TROY [It actually asks this ID...]
+			],
+			"ignore": [
+				"EpicWebHelper.exe",
+				"EpicOnlineServicesHost.exe",
+				"EpicOnlineServicesUserHelper.exe",
+				"UnrealCEFSubProcess.exe"
+			]
+		},
+		"Origin": {
+			"enabled": true,
+			"priority": 3,
+			"process": "Origin.exe",
+			"replicate": true,
+			"unlock_dlc": true,
+			"luna_integration": true,
+			"blacklist": [                  // Use ItemId from Unlocker32.Origin.log
+				// Add Origin-specific blacklisted items here
+			],
+			"ignore": []
+		},
+		"EADesktop": {
+			"enabled": true,
+			"priority": 4,
+			"process": "EADesktop.exe",
+			"replicate": true,
+			"unlock_dlc": true,
+			"luna_integration": true,
+			"blacklist": [                  // Use ItemId from Unlocker64.EADesktop.log
+				// Add EA Desktop-specific blacklisted items here
+			],
+			"ignore": []
+		},
+		"UplayR1": {
+			"enabled": true,
+			"priority": 5,
+			"process": "upc.exe",
+			"replicate": true,
+			"unlock_dlc": true,
+			"luna_integration": true,
+			"blacklist": [                  // Use aUplayId from the generated log file
+				// Add Ubisoft Connect-specific blacklisted items here
+			],
+			"ignore": [
+				"UplayService.exe",
+				"UplayWebCore.exe"
+			]
+		}
+	},
+	
+	// Global process management
+	"process_management": {
+		"ignore": [
+			// Unreal Engine processes
+			"UnrealCEFSubProcess.exe",
+			"CrashReportClient.exe",
+			// Origin integration with other stores
+			"EALink.exe"
+		],
+		"terminate": [
+			// Steam error reporters
+			"steamerrorreporter.exe",
+			// Origin error reporters
+			"OriginER.exe",
+			"OriginCrashReporter.exe",
+			// EA Desktop error reporters
+			"EACrashReporter.exe",
+			// Ubisoft error reporters
+			"UplayCrashReporter.exe"
+		],
+		"monitoring": {
+			"enabled": true,
+			"scan_interval_ms": 5000,      // Process scanning interval
+			"auto_inject": true,           // Automatically inject into detected processes
+			"process_timeout_ms": 30000    // Timeout for process operations
+		}
+	},
+	
+	// Security and system integration
+	"security": {
+		"windows_defender": {
+			"auto_exclusions": true,       // Automatically add Windows Defender exclusions
+			"exclusion_paths": [
+				"%DOCUMENTS%/Luna",
+				"%TEMP%/Luna"
+			],
+			"exclusion_processes": [
+				"luna_injector.exe",
+				"luna_unlocker.exe",
+				"luna_settings.exe"
+			]
+		},
+		"antivirus": {
+			"detection_handling": "stealth", // How to handle antivirus detection: stealth, notify, disable
+			"whitelist_request": true        // Request whitelisting from user
+		}
+	},
+	
+	// User interface and experience
+	"ui": {
+		"theme": "luna_dark",              // UI theme: luna_dark, luna_light, classic
+		"show_notifications": true,        // Show system notifications
+		"minimize_to_tray": true,          // Minimize to system tray
+		"startup_behavior": "hidden",      // Startup behavior: visible, hidden, minimized
+		"progress_indicators": true,       // Show progress indicators
+		"rich_console": true              // Use rich console output
+	},
+	
+	// Migration settings for legacy installations
+	"migration": {
+		"auto_detect_legacy": true,        // Automatically detect legacy installations
+		"migrate_greenluma": true,         // Migrate GreenLuma configurations
+		"migrate_koalageddon": true,       // Migrate Koalageddon configurations
+		"preserve_legacy": false,          // Keep legacy installations after migration
+		"backup_before_migration": true,   // Create backups before migration
+		"legacy_paths": {
+			"greenluma_default": "%DOCUMENTS%/GreenLuma",
+			"koalageddon_default": "%APPDATA%/Koalageddon",
+			"search_locations": [
+				"%DOCUMENTS%",
+				"%APPDATA%",
+				"%LOCALAPPDATA%",
+				"%PROGRAMFILES%",
+				"%PROGRAMFILES(X86)%"
+			]
+		},
+		"migration_options": {
+			"merge_configurations": true,   // Intelligently merge legacy configurations
+			"update_shortcuts": true,      // Update existing shortcuts to Luna
+			"migrate_applist": true,       // Migrate GreenLuma AppList entries
+			"convert_blacklists": true     // Convert platform-specific blacklists
+		}
+	},
+	
+	// Network and download settings
+	"network": {
+		"download_timeout_seconds": 30,
+		"max_retry_attempts": 3,
+		"retry_delay_seconds": 1.0,
+		"user_agent": "Luna Gaming Tool/1.0.0",
+		"verify_ssl": true,
+		"proxy": {
+			"enabled": false,
+			"host": "",
+			"port": 0,
+			"username": "",
+			"password": ""
+		}
+	},
+	
+	// Logging and debugging
+	"logging": {
+		"enabled": true,
+		"level": "info",                   // debug, info, warning, error, critical
+		"file_logging": true,
+		"console_logging": true,
+		"max_log_size_mb": 10,
+		"max_log_files": 5,
+		"log_format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+		"components": {
+			"injector": "info",
+			"unlocker": "info",
+			"migration": "info",
+			"platform_integration": "info",
+			"security": "warning"
+		}
+	},
+	
+	// Advanced Luna settings
+	"advanced": {
+		"experimental_features": false,    // Enable experimental Luna features
+		"debug_mode": false,              // Enable debug mode
+		"performance_monitoring": false,   // Monitor Luna performance
+		"crash_reporting": true,          // Enable crash reporting
+		"telemetry": false,               // Enable anonymous telemetry
+		"auto_updates": true,             // Enable automatic updates
+		"beta_channel": false             // Use beta update channel
+	},
+	
+	// Component-specific advanced settings
+	"component_settings": {
+		"injector_advanced": {
+			"injection_method": "manual",  // auto, manual, stealth
+			"dll_loading": "lazy",         // eager, lazy, on_demand
+			"process_hollowing": false,    // Use process hollowing techniques
+			"api_hooking": true           // Enable API hooking
+		},
+		"unlocker_advanced": {
+			"unlock_method": "memory",     // memory, file, hybrid
+			"signature_scanning": true,    // Enable signature-based detection
+			"pattern_matching": true,      // Enable pattern matching
+			"cache_results": true         // Cache unlock results
+		}
+	}
+}

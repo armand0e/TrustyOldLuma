@@ -23,7 +23,7 @@ aiohttp>=3.8.0
 - **setuptools** - Package building and distribution
 - **setup.py** - Package configuration with console entry points
 - **setup.bat** - Windows batch script for automated setup
-- Entry points: `gaming-setup-tool` and `gst` (short alias)
+- Entry points: `luna`, `luna-setup`, and `luna-gaming-tool` (aliases)
 
 ## Common Commands
 

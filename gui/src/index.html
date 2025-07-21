@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luna Gaming Tool</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Roboto Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="logo-container">
+                <img src="../assets/icons/luna-logo.png" alt="Luna Logo" class="logo">
+                <h1>Luna</h1>
+            </div>
+            
+            <ul class="nav-links">
+                <li class="nav-item active" data-page="dashboard">
+                    <span class="material-icons">dashboard</span>
+                    <span>Dashboard</span>
+                </li>
+                <li class="nav-item" data-page="injector">
+                    <span class="material-icons">games</span>
+                    <span>Injector</span>
+                </li>
+                <li class="nav-item" data-page="unlocker">
+                    <span class="material-icons">lock_open</span>
+                    <span>Unlocker</span>
+                </li>
+                <li class="nav-item" data-page="settings">
+                    <span class="material-icons">settings</span>
+                    <span>Settings</span>
+                </li>
+            </ul>
+            
+            <div class="theme-toggle">
+                <span class="material-icons light-icon">light_mode</span>
+                <label class="switch">
+                    <input type="checkbox" id="theme-switch">
+                    <span class="slider round"></span>
+                </label>
+                <span class="material-icons dark-icon">dark_mode</span>
+            </div>
+        </nav>
+        
+        <!-- Main Content Area -->
+        <main class="content">
+            <!-- Dashboard Page -->
+            <section id="dashboard" class="page active">
+                <header>
+                    <h2>Dashboard</h2>
+                    <div class="status-indicator">
+                        <span class="status-dot offline"></span>
+                        <span class="status-text">Offline</span>
+                    </div>
+                </header>
+                
+                <div class="dashboard-grid">
+                    <!-- Status Card -->
+                    <div class="card status-card">
+                        <div class="card-header">
+                            <h3>System Status</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="status-item">
+                                <span class="label">Luna API:</span>
+                                <span class="value" id="api-status">Disconnected</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="label">Injector:</span>
+                                <span class="value" id="injector-status">Inactive</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="label">Unlocker:</span>
+                                <span class="value" id="unlocker-status">Inactive</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Actions Card -->
+                    <div class="card actions-card">
+                        <div class="card-header">
+                            <h3>Quick Actions</h3>
+                        </div>
+                        <div class="card-content">
+                            <button class="btn primary" id="start-injector-btn">
+                                <span class="material-icons">play_arrow</span>
+                                Start Injector
+                            </button>
+                            <button class="btn primary" id="start-unlocker-btn">
+                                <span class="material-icons">play_arrow</span>
+                                Start Unlocker
+                            </button>
+                            <button class="btn secondary" id="create-shortcuts-btn">
+                                <span class="material-icons">add_link</span>
+                                Create Shortcuts
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Recent Activity Card -->
+                    <div class="card activity-card">
+                        <div class="card-header">
+                            <h3>Recent Activity</h3>
+                        </div>
+                        <div class="card-content">
+                            <ul class="activity-list" id="activity-list">
+                                <li class="activity-item">
+                                    <span class="activity-time">Just now</span>
+                                    <span class="activity-message">Luna GUI started</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Injector Page -->
+            <section id="injector" class="page">
+                <header>
+                    <h2>Luna Injector</h2>
+                </header>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Injector Configuration</h3>
+                    </div>
+                    <div class="card-content">
+                        <form id="injector-form">
+                            <div class="form-group">
+                                <label for="injector-enabled">Enable Injector</label>
+                                <label class="switch">
+                                    <input type="checkbox" id="injector-enabled" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="auto-inject">Auto-inject on Steam launch</label>
+                                <label class="switch">
+                                    <input type="checkbox" id="auto-inject">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="app-list">App List</label>
+                                <textarea id="app-list" rows="10" placeholder="Enter app IDs, one per line"></textarea>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="button" class="btn secondary" id="save-injector-config">Save Configuration</button>
+                                <button type="button" class="btn primary" id="run-injector">Run Injector</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Unlocker Page -->
+            <section id="unlocker" class="page">
+                <header>
+                    <h2>Luna Unlocker</h2>
+                </header>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Unlocker Configuration</h3>
+                    </div>
+                    <div class="card-content">
+                        <form id="unlocker-form">
+                            <div class="form-group">
+                                <label for="unlocker-enabled">Enable Unlocker</label>
+                                <label class="switch">
+                                    <input type="checkbox" id="unlocker-enabled" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Platforms</label>
+                                <div class="checkbox-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="platform-steam" checked>
+                                        <span>Steam</span>
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="platform-epic">
+                                        <span>Epic Games</span>
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="platform-origin">
+                                        <span>Origin/EA</span>
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="platform-uplay">
+                                        <span>Ubisoft Connect</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="unlock-dlc">Unlock DLC</label>
+                                <label class="switch">
+                                    <input type="checkbox" id="unlock-dlc" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="unlock-shared">Unlock Shared Library</label>
+                                <label class="switch">
+                                    <input type="checkbox" id="unlock-shared">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="button" class="btn secondary" id="save-unlocker-config">Save Configuration</button>
+                                <button type="button" class="btn primary" id="run-unlocker">Run Unlocker</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Settings Page -->
+            <section id="settings" class="page">
+                <header>
+                    <h2>Settings</h2>
+                </header>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3>General Settings</h3>
+                    </div>
+                    <div class="card-content">
+                        <form id="settings-form">
+                            <div class="form-group">
+                                <label for="auto-start">Start with Windows</label>
+                                <label class="switch">
+                                    <input type="checkbox" id="auto-start">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="minimize-to-tray">Minimize to tray</label>
+                                <label class="switch">
+                                    <input type="checkbox" id="minimize-to-tray" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="api-port">API Port</label>
+                                <input type="number" id="api-port" value="5000" min="1024" max="65535">
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="button" class="btn secondary" id="save-settings">Save Settings</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Advanced Settings</h3>
+                    </div>
+                    <div class="card-content">
+                        <div class="form-group">
+                            <label for="security-exclusions">Configure Security Exclusions</label>
+                            <button class="btn secondary" id="security-exclusions">
+                                <span class="material-icons">security</span>
+                                Setup Exclusions
+                            </button>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="migrate-legacy">Migrate Legacy Configurations</label>
+                            <button class="btn secondary" id="migrate-legacy">
+                                <span class="material-icons">upgrade</span>
+                                Migrate
+                            </button>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="open-config">Open Configuration File</label>
+                            <button class="btn secondary" id="open-config">
+                                <span class="material-icons">edit</span>
+                                Open Config
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3>About</h3>
+                    </div>
+                    <div class="card-content">
+                        <div class="about-info">
+                            <p><strong>Luna Gaming Tool</strong></p>
+                            <p>Version: <span id="app-version">1.0.0</span></p>
+                            <p>A unified gaming tool for Steam game sharing</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toast-container"></div>
+    
+    <!-- Scripts -->
+    <script src="js/theme.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+    
+    <!-- Component Scripts (loaded dynamically by app.js) -->
+    <!-- <script src="components/dashboard.js"></script> -->
+    <!-- <script src="components/injector.js"></script> -->
+    <!-- <script src="components/unlocker.js"></script> -->
+    <!-- <script src="components/settings.js"></script> -->
+</body>
+</html>

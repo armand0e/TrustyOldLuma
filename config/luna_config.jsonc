@@ -1,0 +1,94 @@
+{
+	"config_version": 6, // DO NOT EDIT THIS VALUE
+	"log_level": "debug",
+	"platforms": {
+		"Steam": {
+			"enabled": true,
+			"process": "steam.exe",
+			"replicate": true,
+			"unlock_dlc": true,
+			"unlock_shared_library": true,
+			"app_blacklist": [
+				"976310" // Mortal Kombat 11
+			],
+			"blacklist": [ // Get App ID from SteamDB
+				"22618", // Alien Breed: Impact - PL Check [Do not force polish language]
+				"67379" // Darkness II Low Violence [Do not censor violence]
+			],
+			"ignore": [
+				"x86launcher.exe",
+				"x64launcher.exe",
+				"SteamService.exe",
+				"steamwebhelper.exe",
+				"GameOverlayUI.exe",
+				"gldriverquery.exe",
+				"gldriverquery64.exe",
+				"vulkandriverquery.exe",
+				"vulkandriverquery64.exe"
+			]
+		},
+		"EpicGames": {
+			"enabled": true,
+			"process": "EpicGamesLauncher.exe",
+			"replicate": true,
+			"blacklist": [ // Get DLC ID from ScreamDB
+				"ffffffffffffffffffffffffffffffff" // A Total War Sage: TROY [It actually asks this ID...]
+			],
+			"ignore": [
+				"EpicWebHelper.exe",
+				"EpicOnlineServicesHost.exe",
+				"EpicOnlineServicesUserHelper.exe",
+				"UnrealCEFSubProcess.exe"
+			]
+		},
+		"Origin": {
+			"enabled": true,
+			"process": "Origin.exe",
+			"replicate": true,
+			"blacklist": [ // Use ItemId from Unlocker32.Origin.log
+
+			],
+			"ignore": []
+		},
+		"EADesktop": {
+			"enabled": true,
+			"process": "EADesktop.exe",
+			"replicate": true,
+			"blacklist": [ // Use ItemId from Unlocker64.EADesktop.log
+
+			],
+			"ignore": []
+		},
+		"UplayR1": {
+			"enabled": true,
+			"process": "upc.exe",
+			"replicate": true,
+			"blacklist": [ // Use aUplayId from the generated log file
+
+			],
+			"ignore": [
+				"UplayService.exe",
+				"UplayWebCore.exe"
+			]
+		}
+	},
+	"ignore": [
+		// Unreal Engine
+		"UnrealCEFSubProcess.exe",
+		"CrashReportClient.exe",
+		// Origin integration with other stores
+		"EALink.exe"
+	],
+	"terminate": [
+		// Steam
+		"steamerrorreporter.exe",
+		// Origin
+		"OriginER.exe",
+		"OriginCrashReporter.exe",
+		// EA Desktop
+		"EACrashReporter.exe",
+		// Ubisoft
+		"UplayCrashReporter.exe"
+	]
+}
+
