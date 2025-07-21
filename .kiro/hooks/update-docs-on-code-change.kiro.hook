@@ -1,0 +1,22 @@
+{
+  "enabled": true,
+  "name": "Update Documentation on Code Changes",
+  "description": "Monitors changes to source code files and prompts for documentation updates in README.md or docs folder to keep documentation in sync with code changes",
+  "version": "1",
+  "when": {
+    "type": "userTriggered",
+    "patterns": [
+      "**/*.py",
+      "src/**/*.py",
+      "managers/**/*.py",
+      "gui/**/*.js",
+      "gui/src/**/*.js",
+      "gui/src/**/*.ts",
+      "config/**/*.jsonc"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "You've detected changes in the source code. Please review the changes and update the relevant documentation in either README.md or the docs folder to reflect these changes. Consider:\n\n1. If the changes affect user-facing functionality, update the main README.md\n2. If the changes are related to specific components, update the relevant files in the docs folder\n3. If new features were added, ensure they are documented\n4. If APIs changed, update any API documentation\n5. If there are migration implications, consider updating docs/MIGRATION_GUIDE.md\n6. For Luna-specific changes, check if docs/LUNA_SETUP.md or docs/LUNA_TROUBLESHOOTING.md need updates\n\nPlease suggest specific documentation changes based on the code modifications."
+  }
+}
