@@ -1,0 +1,13 @@
+2025-07-27 22:02:37,039 - setup_error_handler - ERROR - [Permission Error] Real console test | Context: integration test
+2025-07-27 22:03:42,138 - setup_error_handler - ERROR - [Permission Error] Real console test | Context: integration test
+2025-07-27 22:04:05,573 - setup_error_handler - ERROR - [Administrator Error] Access denied to C:\Windows\System32\config | Context: admin setup phase
+2025-07-27 22:04:05,574 - setup_error_handler - WARNING - [Network Error] Failed to connect to download server | Context: downloading Koalageddon
+2025-07-27 22:04:05,576 - setup_error_handler - WARNING - [Configuration Error] Invalid configuration in Config.jsonc | Context: configuration loading
+2025-07-27 22:07:06,423 - setup_error_handler - CRITICAL - [Unknown Error] 'ErrorHandler' object has no attribute 'ErrorInfo' | Context: Error during prerequisites check
+2025-07-27 22:07:24,736 - setup_error_handler - CRITICAL - [Unknown Error] 'ErrorHandler' object has no attribute 'ErrorInfo' | Context: Error during prerequisites check
+2025-07-27 22:12:05,110 - setup_error_handler - CRITICAL - [Unknown Error] 'ErrorHandler' object has no attribute 'ErrorInfo' | Context: Error during prerequisites check
+2025-07-27 22:15:45,972 - setup_error_handler - CRITICAL - [Unknown Error] 'ErrorHandler' object has no attribute 'ErrorInfo' | Context: Error during prerequisites check
+2025-07-27 22:25:21,800 - setup_error_handler - CRITICAL - [Unknown Error] 'ErrorHandler' object has no attribute 'ErrorInfo' | Context: Error during prerequisites check
+2025-07-27 22:25:48,586 - setup_error_handler - CRITICAL - [Unknown Error] 'ErrorHandler' object has no attribute 'ErrorInfo' | Context: Error during prerequisites check
+2025-07-29 20:58:05,612 - setup_error_handler - ERROR - [Administrator Error] 'ErrorHandler' object has no attribute 'ErrorInfo' | Context: Error during admin phase
+2025-07-29 20:59:14,834 - setup_error_handler - ERROR - [Administrator Error] 'ErrorHandler' object has no attribute 'ErrorInfo' | Context: Error during admin phase

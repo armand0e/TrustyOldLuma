@@ -1,17 +1,61 @@
 @echo off
-
-
-:: Check if running as admin
-net session >nul 2>&1
-if %errorLevel% neq 0 (
-    echo * This script requires administrator privileges.
-    echo * Relaunching as administrator...
-    powershell -Command "Start-Process '%~f0' -Verb RunAs -WorkingDirectory '%CD%'"
-    exit /b
-)
-
 setlocal enabledelayedexpansion
 
+:: Check if this instance is the EXCLUSIONS_PHASE (running as admin)
+if "%~1"=="_EXCLUSIONS_PHASE_" goto :EXCLUSIONS_PHASE
+
+:: --- MAIN SCRIPT START ---
+:: Check if current instance is running as admin for the initial launch
+net session >nul 2>&1
+if %errorLevel% neq 0 (
+    echo * This script requires administrator privileges for initial setup.
+    echo * Relaunching exclusion setup as administrator...
+    powershell -Command "Start-Process -FilePath 'cmd.exe' -ArgumentList '/c', '\"%~f0\" _EXCLUSIONS_PHASE_' -Verb RunAs -Wait; exit $LASTEXITCODE"
+    if %errorLevel% neq 0 (
+        echo [ERROR] Failed to launch admin phase. Exiting.
+        pause
+        exit /b %errorLevel%
+    )
+    echo [OK] Admin phase completed. Continuing with normal setup...
+    goto :normalStart
+)
+
+:: If already running as admin AND not the EXCLUSIONS_PHASE, proceed to normal start
+goto :normalStart
+
+:: --- EXCLUSIONS_PHASE (Admin-only) ---
+:EXCLUSIONS_PHASE
+echo DEBUG: Entered EXCLUSIONS_PHASE (Admin Mode)
+echo.
+echo +-------------------------------------------------------------+
+echo ^|                 ADMINISTRATOR SETUP PHASE                   ^|
+echo +-------------------------------------------------------------+
+echo.
+
+echo ^* Configuring Windows Security exclusions...
+set "greenLumaPath=%USERPROFILE%\Documents\GreenLuma"
+if not exist "!greenLumaPath!" (
+    mkdir "!greenLumaPath!"
+)
+
+powershell -Command "Add-MpPreference -ExclusionPath '!greenLumaPath!'" >nul 2>&1
+if %errorLevel% equ 0 (
+    echo   [OK] Added exclusion for GreenLuma folder.
+) else (
+    echo   [WARNING] Could not add exclusion for GreenLuma. Please add it manually.
+)
+
+set "koalageddonPath=%USERPROFILE%\AppData\Local\Programs\Koalageddon"
+powershell -Command "Add-MpPreference -ExclusionPath '!koalageddonPath!'" >nul 2>&1
+if %errorLevel% equ 0 (
+    echo   [OK] Added exclusion for Koalageddon folder.
+) else (
+    echo   [WARNING] Could not add exclusion for Koalageddon. Please add it manually.
+)
+exit /b 0 :: Exit this admin instance
+
+:: --- NORMAL START ---
+:normalStart
 echo.
 echo +-------------------------------------------------------------+
 echo ^|                 SETUP SCRIPT INITIALIZED                    ^|
@@ -26,25 +70,6 @@ if not exist "!greenLumaPath!" (
     echo   [OK] GreenLuma folder created in Documents.
 ) else (
     echo   [OK] GreenLuma folder already exists.
-)
-
-echo.
-echo ^* Configuring Windows Security exclusions...
-:: Add Windows Security exclusion using PowerShell (more reliable method)
-powershell -Command "Add-MpPreference -ExclusionPath '!greenLumaPath!'" >nul 2>&1
-if %errorLevel% equ 0 (
-    echo   [OK] Added exclusion for GreenLuma folder.
-) else (
-    echo   [WARNING] Could not add exclusion for GreenLuma. Please add it manually.
-)
-
-:: Add Windows Security exclusion for Koalageddon folder
-set "koalageddonPath=%USERPROFILE%\AppData\Local\Programs\Koalageddon"
-powershell -Command "Add-MpPreference -ExclusionPath '!koalageddonPath!'" >nul 2>&1
-if %errorLevel% equ 0 (
-    echo   [OK] Added exclusion for Koalageddon folder.
-) else (
-    echo   [WARNING] Could not add exclusion for Koalageddon. Please add it manually.
 )
 
 echo.

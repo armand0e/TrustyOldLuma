@@ -1,0 +1,22 @@
+{
+    // Example configuration for TrustyOldLuma Setup
+    "setup": {
+        // Custom app ID for Steam game
+        "app_id": "252950",
+        
+        // Custom download URL for Koalageddon
+        "koalageddon_url": "https://github.com/acidicoala/Koalageddon/releases/latest/download/Koalageddon.zip",
+        
+        // Custom paths (optional - will use defaults if not specified)
+        // "greenluma_path": "C:\\Users\\YourName\\Documents\\GreenLuma",
+        // "koalageddon_config_path": "C:\\Users\\YourName\\AppData\\Local\\Programs\\Koalageddon",
+        // "desktop_path": "C:\\Users\\YourName\\Desktop",
+        
+        // Custom security exclusions (optional)
+        "required_exclusions": [
+            "C:\\Users\\YourName\\Documents\\GreenLuma",
+            "C:\\Users\\YourName\\AppData\\Local\\Programs\\Koalageddon",
+            "C:\\Users\\YourName\\Desktop\\GreenLuma"
+        ]
+    }
+}
