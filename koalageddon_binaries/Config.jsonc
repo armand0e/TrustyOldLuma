@@ -5,9 +5,9 @@
 		"Steam": {
 			"enabled": true,
 			"process": "steam.exe",
-			"replicate": false,
+			"replicate": true,
 			"unlock_dlc": true,
-			"unlock_shared_library": false,
+			"unlock_shared_library": true,
 			"app_blacklist": [
 				"976310" // Mortal Kombat 11
 			],
@@ -42,29 +42,26 @@
 			]
 		},
 		"Origin": {
-			"enabled": true,
+			"enabled": false,
 			"process": "Origin.exe",
-			"replicate": false,
+			"replicate": true,
 			"blacklist": [ // Use ItemId from Unlocker32.Origin.log
-
 			],
 			"ignore": []
 		},
 		"EADesktop": {
-			"enabled": true,
+			"enabled": false,
 			"process": "EADesktop.exe",
-			"replicate": false,
+			"replicate": true,
 			"blacklist": [ // Use ItemId from Unlocker64.EADesktop.log
-
 			],
 			"ignore": []
 		},
 		"UplayR1": {
-			"enabled": true,
+			"enabled": false,
 			"process": "upc.exe",
 			"replicate": true,
 			"blacklist": [ // Use aUplayId from the generated log file
-
 			],
 			"ignore": [
 				"UplayService.exe",
